@@ -2,6 +2,10 @@ package com.bmw.controller;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Outgoing;
+
+import com.bmw.domain.Project;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -16,13 +20,13 @@ public class KafkaPublisherController {
 
     @Inject
     @Channel("data-output")
-    Emitter<String> messageEmitter;
+    Emitter<Project> messageEmitter;
 
 
     @POST
-    @Consumes(MediaType.TEXT_PLAIN)
-    public void publishMessage(String info) {
-        messageEmitter.send(info);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void publishMessage(Project project) {
+        messageEmitter.send(project);
     }
-    
+
 }
